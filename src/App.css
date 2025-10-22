@@ -1,7 +1,8 @@
+/* Global Stiller */
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  font-family: "Inter", sans-serif;
+  background-color: #f9fafb;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -9,6 +10,234 @@ body {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 4.5rem 2rem 2rem;
   text-align: center;
+}
+
+.top-app-bar {
+  width: 100%;
+  height: 86px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-logo .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+
+
+.app-logo .logo-image {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.app-logo .logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #132440;
+  text-decoration: none;
+}
+
+.app-logo .logo-link:hover .logo-text {
+  color: #16476A;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links .nav-item {
+  text-decoration: none;
+  color: #16476A;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.nav-links .nav-item:hover {
+  color: #16476A;
+  border-bottom: 2px solid #16476A;
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.auth-buttons .auth-link {
+  background-color: #BF092F;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 0.50rem 1.00rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.auth-buttons .auth-link:hover {
+  background-color: #8b0620;
+  transform: scale(1.05);
+}
+
+.divider {
+  color: #d1d5db;
+  margin: 0 0.25rem;
+}
+
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 6px;
+  padding: 0;
+}
+
+.hamburger-menu span {
+  width: 25px;
+  height: 3px;
+  background-color: #132440;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .top-app-bar {
+    padding: 0 1rem;
+  }
+
+  #root {
+    padding: 3.5rem 1rem 2rem;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(10px, 10px);
+  }
+
+  .hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 64px;
+
+    left: 0; /* ← DEĞİŞTİ */
+    width: 100%;
+    height: calc(100vh - 64px);
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: -4px 0 6px #132440; /* ← Opsiyonel: gölge yönü */
+    transform: translateX(100%); /* ← DEĞİŞTİ */
+    transition: transform 0.3s ease;
+    z-index: 99;
+  }
+
+  .nav-links.active {
+    transform: translateX(0); /* ← Aynı kalır */
+  }
+
+  .nav-links ul {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .nav-links li {
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .nav-links .nav-item {
+    display: block;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+    color: #132440;
+    font-weight: 500;
+  }
+
+  .nav-links .nav-item:hover {
+    background-color: #f9fafb;
+    color: #16476A;
+  }
+
+  /* Auth Buttons Mobile */
+  .auth-buttons {
+    display: none;
+  }
+
+  /* Logo Boyutunu Küçült */
+  .app-logo .logo-text {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-app-bar {
+    height: 56px;
+    padding: 0 0.75rem;
+  }
+
+  .nav-links {
+    top: 56px;
+    height: calc(100vh - 56px);
+  }
+
+  #root {
+    padding: 3.5rem 0.75rem 2rem;
+  }
+
+  .app-logo .logo-text {
+    font-size: 1.1rem;
+  }
 }
