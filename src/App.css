@@ -1,4 +1,3 @@
-/* Global Stiller */
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -16,7 +15,7 @@ body {
 
 .top-app-bar {
   width: 100%;
-  height: 86px;
+  height: 85px;
   box-sizing: border-box;
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
@@ -31,7 +30,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Logo */
 .app-logo {
   display: flex;
   align-items: center;
@@ -45,8 +43,6 @@ body {
   text-decoration: none;
   transition: opacity 0.3s ease;
 }
-
-
 
 .app-logo .logo-image {
   width: 55px;
@@ -65,7 +61,6 @@ body {
   color: #16476A;
 }
 
-/* Navigation Links */
 .nav-links {
   display: flex;
   position: absolute;
@@ -178,7 +173,6 @@ body {
     height: calc(100vh - 64px);
     background-color: #ffffff;
     border-top: 1px solid #e0e0e0;
-    box-shadow: -4px 0 6px #132440; /* ← Opsiyonel: gölge yönü */
     transform: translateX(100%); /* ← DEĞİŞTİ */
     transition: transform 0.3s ease;
     z-index: 99;
