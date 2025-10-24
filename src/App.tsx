@@ -11,6 +11,7 @@ import Giris from "./pages/Giris";
 import Hakkinda from "./pages/Hakkinda";
 import Iletisim from "./pages/Iletisim.tsx";
 import Kayit from "./pages/Kayit";
+import BottomBar from "./components/BottomBar.tsx";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/kayit" element={<Kayit />} />
                 </Routes>
             </main>
+            <BottomBar />
         </Router>
     );
 }
