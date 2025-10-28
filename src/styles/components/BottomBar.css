@@ -1,0 +1,37 @@
+/* ============================================
+   BOTTOM BAR - Footer Component Stilleri
+   ============================================ */
+
+.bottom-footer {
+  width: 100vw;
+  background-color: var(--color-secondary-dark);
+  color: var(--color-text-light);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  padding: var(--spacing-lg) 0;
+  border-top: 2px solid var(--color-secondary);
+  box-shadow: var(--shadow-top);
+  position: relative;
+  z-index: var(--z-index-dropdown);
+  margin-left: calc(-50vw + 50%);
+}
+
+.bottom-footer a {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.bottom-footer a:hover {
+  color: var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .bottom-footer {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-md) 0;
+  }
+}
+

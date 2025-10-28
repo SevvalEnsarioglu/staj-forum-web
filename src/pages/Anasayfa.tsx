@@ -4,9 +4,9 @@ const Anasayfa: React.FC = () => {
     return (
         <div className="page-container">
             <section className="hero-section">
-                <h1 className="hero-title">StajForum Nedir?</h1>
+                <h1 className="hero-title">StajForum'a Hoş Geldiniz!</h1>
                 <p className="hero-subtitle">
-                    StajForum, öğrencilerin staj süreçlerinde bilgi paylaşımı yapabileceği, deneyimlerini
+                    StajForum; öğrencilerin staj süreçlerinde bilgi paylaşımı yapabileceği, deneyimlerini
                     aktarabileceği ve yeni fırsatlara ulaşabileceği bir topluluk platformudur.
                 </p>
             </section>

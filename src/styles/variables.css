@@ -1,0 +1,118 @@
+:root {
+  /* Renkler - Ana Palet */
+  --color-primary: #BF092F;
+  --color-primary-dark: #8b0620;
+  --color-primary-light: #e0f7fa;
+  
+  --color-secondary: #16476A;
+  --color-secondary-dark: #132440;
+  --color-secondary-light: #3B9797;
+  
+  --color-accent: #3B9797;
+  --color-accent-light: #d0f0f5;
+  
+  /* Arkaplan Renkleri */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f7fa;
+  --color-bg-gradient: linear-gradient(135deg, #f9fafb, #e0f7fa);
+  
+  /* Metin Renkleri */
+  --color-text-primary: #132440;
+  --color-text-secondary: #16476A;
+  --color-text-light: #ffffff;
+  --color-text-muted: #6b7280;
+  
+  /* Kenarlık Renkleri */
+  --color-border-light: #e0e0e0;
+  --color-border-lighter: #f3f4f6;
+  --color-border-accent: #3B9797;
+  
+  /* Gölge Efektleri */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 6px 14px rgba(0, 0, 0, 0.08);
+  --shadow-top: 0 -2px 4px rgba(0, 0, 0, 0.05);
+  
+  /* Tipografi */
+  --font-family-primary: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-secondary: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.9rem;
+  --font-size-base: 0.95rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.1rem;
+  --font-size-xl: 1.35rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.4rem;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+  
+  /* Boşluklar */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-3xl: 2.5rem;
+  --spacing-4xl: 3rem;
+  
+  /* Kenarlık Yarıçapları */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  
+  /* Geçiş Efektleri */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  
+  /* Layout Boyutları */
+  --header-height-desktop: 85px;
+  --header-height-mobile: 56px;
+  --max-width-content: 1280px;
+  --max-width-page: 900px;
+  --max-width-section: 800px;
+  
+  /* Z-Index Değerleri */
+  --z-index-dropdown: 50;
+  --z-index-sticky: 90;
+  --z-index-mobile-menu: 99;
+  --z-index-header: 100;
+  
+  /* Font Rendering */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Font Sizes - Mobil için optimize edilmiş */
+@media (max-width: 768px) {
+  :root {
+    --font-size-4xl: 2rem;
+    --font-size-3xl: 1.7rem;
+    --font-size-2xl: 1.25rem;
+    --font-size-xl: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-size-4xl: 1.7rem;
+    --font-size-3xl: 1.5rem;
+    --font-size-xs: 0.75rem;
+  }
+}
+

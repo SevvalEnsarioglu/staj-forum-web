@@ -1,0 +1,102 @@
+@import './variables.css';
+
+/* Reset & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  background-color: var(--color-bg-secondary);
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: var(--header-height-desktop);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+/* Main Container */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--spacing-2xl) var(--spacing-2xl) 0;
+  text-align: center;
+}
+
+/* Link Styles */
+a {
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Button Base Styles (global defaults) */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  background: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+/* Paragraphs */
+p {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* Lists */
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  #root {
+    padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: var(--header-height-mobile);
+  }
+
+  #root {
+    padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-2xl);
+  }
+}
+
