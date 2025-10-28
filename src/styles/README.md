@@ -1,7 +1,5 @@
 # 🎨 Stil Yapısı Dokümantasyonu
 
-Bu klasör, StajForum projesinin tüm CSS stillerini organize bir şekilde içerir.
-
 ## 📁 Klasör Yapısı
 
 ```
