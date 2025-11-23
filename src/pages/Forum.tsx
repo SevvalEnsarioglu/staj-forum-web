@@ -1,14 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { sendTopicMessage } from "../api/contactService";
+import { getTopics } from "../api/forumService";
+import TopicCard from "../components/TopicCard";
 import "../styles/pages/Common.css";
 import "../styles/pages/Forum.css";
 
+interface Topic {
+    id: string;
+    authorName: string;
+    title: string;
+    description: string;
+}
+
 const Forum: React.FC = () => {
+    const [topics, setTopics] = useState<Topic[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState<any>({});
+
+    // Backend'den topic'leri çek
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                setIsLoading(true);
+                const response = await getTopics(1, 50, 'newest');
+                // Backend'den gelen data formatını TopicCard'a uygun hale getir
+                const formattedTopics: Topic[] = response.data.map((topic) => ({
+                    id: topic.id.toString(),
+                    authorName: topic.authorName,
+                    title: topic.title,
+                    description: topic.content.length > 200 
+                        ? topic.content.substring(0, 200) + '...' 
+                        : topic.content
+                }));
+                setTopics(formattedTopics);
+            } catch (error) {
+                console.error("Topic'ler yüklenirken hata:", error);
+                // Hata durumunda boş array bırak
+                setTopics([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchTopics();
+    }, []);
 
     const validate = () => {
         const newErrors: any = {};
@@ -33,6 +72,18 @@ const Forum: React.FC = () => {
             const topic = await sendTopicMessage({ title, content, authorName });
             console.log("Topic oluşturuldu:", topic);
 
+            // Yeni topic oluşturulduktan sonra listeyi yenile
+            const response = await getTopics(1, 50, 'newest');
+            const formattedTopics: Topic[] = response.data.map((topic) => ({
+                id: topic.id.toString(),
+                authorName: topic.authorName,
+                title: topic.title,
+                description: topic.content.length > 200 
+                    ? topic.content.substring(0, 200) + '...' 
+                    : topic.content
+            }));
+            setTopics(formattedTopics);
+
             setIsOpen(false);
             setTitle("");
             setContent("");
@@ -55,7 +106,21 @@ const Forum: React.FC = () => {
             </div>
 
             <div className="topics-container">
-                <p className="empty-state">Sayfa içeriği gelecek.</p>
+                {isLoading ? (
+                    <p className="empty-state">Yükleniyor...</p>
+                ) : topics.length > 0 ? (
+                    topics.map((topic) => (
+                        <TopicCard
+                            key={topic.id}
+                            id={topic.id}
+                            authorName={topic.authorName}
+                            title={topic.title}
+                            description={topic.description}
+                        />
+                    ))
+                ) : (
+                    <p className="empty-state">Henüz topic bulunmamaktadır.</p>
+                )}
             </div>
 
             {isOpen && (
