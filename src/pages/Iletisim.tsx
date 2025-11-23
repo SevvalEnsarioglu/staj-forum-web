@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/pages/Common.css";
 import "../styles/pages/Contact.css";
+import { sendContactMessage } from "../api/contactService";
 
 interface ContactFormData {
     name: string;
@@ -94,8 +95,15 @@ const Iletisim: React.FC = () => {
 
         setLoading(true);
 
-        // Simüle edilmiş API çağrısı (şimdilik backend'e bağlanmıyoruz)
-        setTimeout(() => {
+        try {
+            // Backend'e istek at ve veriyi veritabanına kaydet
+            await sendContactMessage({
+                name: formData.name.trim(),
+                email: formData.email.trim(),
+                subject: formData.subject.trim(),
+                message: formData.message.trim(),
+            });
+
             setSuccess(true);
             setFormData({
                 name: "",
@@ -103,13 +111,21 @@ const Iletisim: React.FC = () => {
                 subject: "",
                 message: "",
             });
-            setLoading(false);
             
             // Hide success message after 5 seconds
             setTimeout(() => {
                 setSuccess(false);
             }, 5000);
-        }, 1000);
+        } catch (error: any) {
+            console.error("Error sending contact message:", error);
+            setErrorMessage(
+                error.response?.data?.error || 
+                error.message || 
+                "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin."
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
