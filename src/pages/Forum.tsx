@@ -21,31 +21,32 @@ const Forum: React.FC = () => {
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState<any>({});
 
-    // Backend'den topic'leri çek
-    useEffect(() => {
-        const fetchTopics = async () => {
-            try {
-                setIsLoading(true);
-                const response = await getTopics(1, 50, 'newest');
-                // Backend'den gelen data formatını TopicCard'a uygun hale getir
-                const formattedTopics: Topic[] = response.data.map((topic) => ({
-                    id: topic.id.toString(),
-                    authorName: topic.authorName,
-                    title: topic.title,
-                    description: topic.content.length > 200 
-                        ? topic.content.substring(0, 200) + '...' 
-                        : topic.content
-                }));
-                setTopics(formattedTopics);
-            } catch (error) {
-                console.error("Topic'ler yüklenirken hata:", error);
-                // Hata durumunda boş array bırak
-                setTopics([]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // Backend'den topic'leri çeken fonksiyon
+    const fetchTopics = async () => {
+        try {
+            setIsLoading(true);
+            const response = await getTopics(1, 50, 'newest');
+            // Backend'den gelen data formatını TopicCard'a uygun hale getir
+            const formattedTopics: Topic[] = response.data.map((topic) => ({
+                id: topic.id.toString(),
+                authorName: topic.authorName,
+                title: topic.title,
+                description: topic.content.length > 200 
+                    ? topic.content.substring(0, 200) + '...' 
+                    : topic.content
+            }));
+            setTopics(formattedTopics);
+        } catch (error) {
+            console.error("Topic'ler yüklenirken hata:", error);
+            // Hata durumunda boş array bırak
+            setTopics([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    // Component mount olduğunda topic'leri çek
+    useEffect(() => {
         fetchTopics();
     }, []);
 
@@ -69,25 +70,19 @@ const Forum: React.FC = () => {
         if (!validate()) return;
 
         try {
+            // Backend'e POST isteği gönder
             const topic = await sendTopicMessage({ title, content, authorName });
             console.log("Topic oluşturuldu:", topic);
 
-            // Yeni topic oluşturulduktan sonra listeyi yenile
-            const response = await getTopics(1, 50, 'newest');
-            const formattedTopics: Topic[] = response.data.map((topic) => ({
-                id: topic.id.toString(),
-                authorName: topic.authorName,
-                title: topic.title,
-                description: topic.content.length > 200 
-                    ? topic.content.substring(0, 200) + '...' 
-                    : topic.content
-            }));
-            setTopics(formattedTopics);
+            // POST isteği başarılı olduktan sonra tüm topic'leri tekrar çek
+            await fetchTopics();
 
+            // Modal'ı kapat ve formu temizle
             setIsOpen(false);
             setTitle("");
             setContent("");
             setAuthorName("");
+            setErrors({});
         } catch (error) {
             console.error("Topic oluşturulurken hata:", error);
         }
