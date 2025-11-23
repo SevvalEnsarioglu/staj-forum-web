@@ -74,6 +74,18 @@ const Forum: React.FC = () => {
 
                         <div className="topic-form">
                             <div className="form-group">
+                                <label htmlFor="topic-author">Ad Soyad</label>
+                                <input
+                                    type="text"
+                                    id="topic-author"
+                                    value={authorName}
+                                    onChange={(e) => setAuthorName(e.target.value)}
+                                />
+                                {errors.authorName && (
+                                    <p className="error-message">{errors.authorName}</p>
+                                )}
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="topic-title">Başlık</label>
                                 <input
                                     type="text"
@@ -98,18 +110,7 @@ const Forum: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="topic-author">Ad Soyad</label>
-                                <input
-                                    type="text"
-                                    id="topic-author"
-                                    value={authorName}
-                                    onChange={(e) => setAuthorName(e.target.value)}
-                                />
-                                {errors.authorName && (
-                                    <p className="error-message">{errors.authorName}</p>
-                                )}
-                            </div>
+
 
                             <div className="form-actions">
                                 <button
