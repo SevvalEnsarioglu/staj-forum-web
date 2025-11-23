@@ -34,8 +34,8 @@ const Anasayfa: React.FC = () => {
                 <h2>👥 Kimler Kullanabilir?</h2>
                 <p>
                     Platform, öncelikle üniversite öğrencileri, yeni mezunlar ve stajyer arayan firmalar
-                    için tasarlanmıştır. Kullanıcılar ücretsiz bir hesap oluşturarak hem bilgi paylaşabilir
-                    hem de topluluğa katkı sağlayabilir.
+                    için tasarlanmıştır. Kullanıcılar kayıt olmadan, sadece Ad-Soyad girerek forumda yorum
+                    yapabilir ve topluluğa katkı sağlayabilir.
                 </p>
             </section>
             <section className="info-section">

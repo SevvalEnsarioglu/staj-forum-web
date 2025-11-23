@@ -7,10 +7,8 @@ import Anasayfa from "./pages/Anasayfa";
 import ChatStj from "./pages/ChatStj";
 import Forum from "./pages/Forum";
 import ForumKonuSecimi from "./pages/ForumKonuSecimi";
-import Giris from "./pages/Giris";
 import Hakkinda from "./pages/Hakkinda";
 import Iletisim from "./pages/Iletisim.tsx";
-import Kayit from "./pages/Kayit";
 import BottomBar from "./components/BottomBar.tsx";
 
 function App() {
@@ -26,8 +24,6 @@ function App() {
                     <Route path="/chatstj" element={<ChatStj />} />
                     <Route path="/hakkinda" element={<Hakkinda />} />
                     <Route path="/iletisim" element={<Iletisim />} />
-                    <Route path="/giris" element={<Giris />} />
-                    <Route path="/kayit" element={<Kayit />} />
                 </Routes>
             </main>
             <BottomBar />

@@ -5,7 +5,9 @@
 /* Component Stilleri */
 @import './styles/components/TopAppBar.css';
 @import './styles/components/BottomBar.css';
+@import './styles/components/TopicCard.css';
 
 /* Sayfa Stilleri */
 @import './styles/pages/Common.css';
-@import './styles/pages/Anasayfa.css';
+@import './styles/pages/Forum.css';
+@import './styles/pages/ForumKonuSecimi.css';

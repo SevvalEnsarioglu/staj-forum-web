@@ -28,10 +28,9 @@ const Hakkinda: React.FC = () => {
             <section className="info-section">
                 <h2>🚀 Nasıl Başlanır?</h2>
                 <ul className="feature-list">
-                    <li>✅ <strong>Adım 1:</strong> İlk olarak bir hesap oluşturun ve profilinizi tamamlayın</li>
-                    <li>✅ <strong>Adım 2:</strong> Forum bölümüne giderek başka öğrencilerin paylaşımlarını okuyun</li>
-                    <li>✅ <strong>Adım 3:</strong> Siz de bir sorunuz veya deneyiminiz varsa paylaşın</li>
-                    <li>✅ <strong>Adım 4:</strong> Staj başvuru sürecinde topluluktan destek alın</li>
+                    <li>✅ <strong>Adım 1:</strong> Forum bölümüne giderek başka öğrencilerin paylaşımlarını okuyun</li>
+                    <li>✅ <strong>Adım 2:</strong> Siz de bir sorunuz veya deneyiminiz varsa paylaşın (Ad-Soyad girerek)</li>
+                    <li>✅ <strong>Adım 3:</strong> Staj başvuru sürecinde topluluktan destek alın</li>
                     <li>✅ <strong>Adım 4:</strong> Staj süreçlerine dair takıldığınız dönüş alamadığınız noktalarda ChatSTJ üzerinden bilgi edinin</li>
                 </ul>
             </section>
