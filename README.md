@@ -65,7 +65,8 @@ src/
 - ✅ API servis yapılandırması (Axios)
 - ✅ Forum topic'leri listeleme ve oluşturma
 - ✅ İletişim formu mesaj gönderme
-- ✅ Backend API: `http://localhost:5236/api`
+- ✅ Backend API varsayılan adresi: `http://localhost:5236/api`
+- 🌐 Farklı ortamlar için `.env` dosyasına `VITE_API_BASE_URL` yazarak adresi özelleştirebilirsiniz
 
 ### 📡 API Endpoint'leri
 
@@ -103,6 +104,9 @@ src/
 # Bağımlılıkları yükle
 npm install
 
+# Opsiyonel: API adresini özelleştirin
+echo "VITE_API_BASE_URL=https://api.ornek.com/api" >> .env
+
 # Geliştirme sunucusunu başlat
 npm run dev
 
@@ -118,3 +122,4 @@ npm run preview
 - Backend API'nin çalışıyor olması gerekmektedir (`localhost:5236`)
 - Forum ve İletişim sayfaları backend'e bağlıdır
 - ChatSTJ şu anda mock yanıtlar üretmektedir
+- Geliştirme sırasında farklı bir makineden erişiyorsanız, tarayıcıdaki host temel alınarak backend isteği aynı makinedeki `:5236/api` adresine yönlendirilir
