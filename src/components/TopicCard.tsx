@@ -19,10 +19,11 @@ const TopicCard: React.FC<TopicCardProps> = ({ id, authorName, title, descriptio
   return (
     <div className="topic-card" onClick={handleClick}>
       <div className="topic-card-header">
-        <span className="topic-author">{authorName}</span>
+          <h3 className="topic-title">{title}</h3>
+
       </div>
-      <h3 className="topic-title">{title}</h3>
-      <p className="topic-description">{description}</p>
+        <h3 className="topic-author">{authorName}</h3>
+        <p className="topic-description">{description}</p>
     </div>
   );
 };
