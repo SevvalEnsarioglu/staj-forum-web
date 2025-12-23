@@ -26,7 +26,7 @@ const Forum: React.FC = () => {
         try {
             setIsLoading(true);
             const response = await getTopics(1, 50, 'newest');
-            // Backend'den gelen data formatını TopicCard'a uygun hale getir
+
             const formattedTopics: Topic[] = response.data.map((topic) => ({
                 id: topic.id.toString(),
                 authorName: topic.authorName,
@@ -38,14 +38,12 @@ const Forum: React.FC = () => {
             setTopics(formattedTopics);
         } catch (error) {
             console.error("Topic'ler yüklenirken hata:", error);
-            // Hata durumunda boş array bırak
             setTopics([]);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Component mount olduğunda topic'leri çek
     useEffect(() => {
         fetchTopics();
     }, []);
