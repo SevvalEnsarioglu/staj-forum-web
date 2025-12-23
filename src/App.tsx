@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TopAppBar from "./components/TopAppBar";
 import "./App.css";
-
 import Anasayfa from "./pages/Anasayfa";
 import ChatStj from "./pages/ChatStj";
 import Forum from "./pages/Forum";
 import ForumKonuSecimi from "./pages/ForumKonuSecimi";
 import Hakkinda from "./pages/Hakkinda";
 import Iletisim from "./pages/Iletisim.tsx";
+
+import TopAppBar from "./components/TopAppBar";
 import BottomBar from "./components/BottomBar.tsx";
 
 function App() {
