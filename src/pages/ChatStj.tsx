@@ -23,13 +23,13 @@ const ChatStj: React.FC = () => {
         },
     ]);
     const [loading, setLoading] = useState(false);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     // Conversation ID'yi tutmak için state (Backend conversation history desteklerse)
     const [conversationId, setConversationId] = useState<string | undefined>(undefined);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" } as any);
     };
 
     useEffect(() => {
