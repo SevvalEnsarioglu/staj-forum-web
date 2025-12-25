@@ -40,6 +40,11 @@ const TopAppBar: React.FC = () => {
                         </Link>
                     </li>
                     <li>
+                        <Link to="/cv-analiz" className="nav-item" onClick={closeMenu}>
+                            CV Analiz
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/hakkinda" className="nav-item" onClick={closeMenu}>
                             Hakkında
                         </Link>

@@ -15,3 +15,12 @@ export const sendChatMessage = async (request: ChatRequest): Promise<ChatRespons
     const response = await apiClient.post('/chat', request);
     return response.data;
 };
+
+export interface CVAnalysisResponse {
+    analysis: string;
+}
+
+export const analyzeCV = async (cvText: string): Promise<CVAnalysisResponse> => {
+    const response = await apiClient.post('/chat/analyze-cv', { cvText });
+    return response.data;
+};

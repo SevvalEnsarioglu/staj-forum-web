@@ -7,6 +7,7 @@ import Forum from "./pages/Forum";
 import ForumKonuSecimi from "./pages/ForumKonuSecimi";
 import Hakkinda from "./pages/Hakkinda";
 import Iletisim from "./pages/Iletisim.tsx";
+import CVAnaliz from "./pages/CVAnaliz";
 
 import TopAppBar from "./components/TopAppBar";
 import BottomBar from "./components/BottomBar.tsx";
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/forum" element={<Forum />} />
                     <Route path="/forum/:id" element={<ForumKonuSecimi />} />
                     <Route path="/chatstj" element={<ChatStj />} />
+                    <Route path="/cv-analiz" element={<CVAnaliz />} />
                     <Route path="/hakkinda" element={<Hakkinda />} />
                     <Route path="/iletisim" element={<Iletisim />} />
                 </Routes>
