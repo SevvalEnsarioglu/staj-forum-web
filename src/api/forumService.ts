@@ -52,3 +52,38 @@ export const createTopic = async (topic: CreateTopic): Promise<Topic> => {
     return response.data;
 };
 
+// --- Yanıt (Reply) İşlemleri ---
+
+export interface Reply {
+    id: number;
+    topicId: number;
+    content: string;
+    authorName: string;
+    createdAt: string;
+    updatedAt: string | null;
+}
+
+export interface CreateReply {
+    content: string;
+    authorName: string;
+}
+
+// Yanıtları listele
+export const getReplies = async (
+    topicId: number,
+    page: number = 1,
+    pageSize: number = 20,
+    sortBy: string = 'oldest'
+): Promise<PagedResult<Reply>> => {
+    const response = await apiClient.get(`/forum/topics/${topicId}/replies`, {
+        params: { page, pageSize, sortBy },
+    });
+    return response.data;
+};
+
+// Yeni yanıt oluştur
+export const createReply = async (topicId: number, reply: CreateReply): Promise<Reply> => {
+    const response = await apiClient.post(`/forum/topics/${topicId}/replies`, reply);
+    return response.data;
+};
+
