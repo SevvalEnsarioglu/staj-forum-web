@@ -1,0 +1,13 @@
+/* ============================================
+   APP.CSS - Component ve Sayfa Stilleri
+   ============================================ */
+
+/* Component Stilleri */
+@import './components/TopAppBar.css';
+@import './components/BottomBar.css';
+@import './components/TopicCard.css';
+
+/* Sayfa Stilleri */
+@import './pages/Common.css';
+@import './pages/Forum.css';
+@import './pages/ForumKonuSecimi.css';

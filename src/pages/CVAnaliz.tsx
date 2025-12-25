@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/pages/ChatStj.css';
+import '../styles/pages/CVAnaliz.css';
 import { analyzeCV } from '../api/chatService';
 
 const CVAnaliz: React.FC = () => {
@@ -79,24 +79,17 @@ const CVAnaliz: React.FC = () => {
     };
 
     return (
-        <div className="chat-page-container">
-            <div className="chat-container">
-                <div style={{
-                    padding: '20px',
-                    maxWidth: '800px',
-                    margin: '0 auto',
-                    color: 'var(--color-text-primary)',
-                    overflowY: 'auto',
-                    height: '100%'
-                }}>
-                    <h1 style={{ color: 'var(--color-primary)', marginBottom: '20px', textAlign: 'center' }}>
+        <div className="cv-analiz-page-container">
+            <div className="cv-analiz-container">
+                <div className="cv-content">
+                    <h1 className="cv-title">
                         AI Destekli CV Analizi
                     </h1>
-                    <p style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--color-text-secondary)' }}>
+                    <p className="cv-description">
                         CV'nizi PDF formatında yükleyin, yapay zeka sizin için staj başvurularına uygunluğunu analiz etsin!
                     </p>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
+                    <div className="cv-upload-section">
                         <input
                             type="file"
                             accept=".pdf"
@@ -107,84 +100,38 @@ const CVAnaliz: React.FC = () => {
                         <button
                             onClick={() => fileInputRef.current?.click()}
                             disabled={loading}
-                            style={{
-                                padding: '20px 40px',
-                                backgroundColor: 'var(--color-primary)',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '12px',
-                                fontSize: '18px',
-                                fontWeight: 'bold',
-                                cursor: loading ? 'not-allowed' : 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '12px',
-                                transition: 'transform 0.2s',
-                                boxShadow: '0 4px 14px 0 rgba(191, 9, 47, 0.39)'
-                            }}
+                            className="cv-upload-btn"
                         >
-                            PDF CV Yükle
+                            📄 PDF CV Yükle
                         </button>
 
                         {cvText && !loading && (
-                            <div style={{ marginTop: '15px', color: 'green', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                PDF Başarıyla Okundu
+                            <div className="cv-success-msg">
+                                ✅ PDF Başarıyla Okundu
                             </div>
                         )}
                     </div>
-
-                    {/* Textarea removed as requested */}
 
                     {cvText && (
                         <button
                             onClick={handleAnalyze}
                             disabled={loading}
-                            style={{
-                                width: '100%',
-                                padding: '15px',
-                                backgroundColor: loading ? 'var(--color-text-muted)' : 'var(--color-secondary)',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '12px',
-                                fontSize: '18px',
-                                fontWeight: 'bold',
-                                cursor: loading ? 'not-allowed' : 'pointer',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: '10px',
-                                transition: 'background-color 0.3s ease',
-                                marginTop: '10px'
-                            }}
+                            className="cv-analyze-btn"
                         >
-                            {loading ? 'Analiz Ediliyor...' : 'Analizi Başlat '}
+                            {loading ? 'Analiz Ediliyor...' : 'Analizi Başlat'}
                         </button>
                     )}
 
                     {error && (
-                        <div style={{
-                            marginTop: '20px',
-                            padding: '15px',
-                            backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                            border: '1px solid red',
-                            borderRadius: '12px',
-                            color: 'red'
-                        }}>
+                        <div className="cv-error-msg">
                             {error}
                         </div>
                     )}
 
                     {result && (
-                        <div style={{
-                            marginTop: '30px',
-                            padding: '25px',
-                            backgroundColor: 'var(--color-bg-secondary)',
-                            borderRadius: '12px',
-                            border: '1px solid var(--color-primary)',
-                            boxShadow: 'var(--shadow-lg)'
-                        }}>
-                            <h2 style={{ color: 'var(--color-secondary)', marginBottom: '15px' }}>Analiz Sonucu:</h2>
-                            <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: 'var(--color-text-primary)' }}>
+                        <div className="cv-result-card">
+                            <h2 className="cv-result-title">Analiz Sonucu:</h2>
+                            <div className="cv-result-content">
                                 {result}
                             </div>
                         </div>

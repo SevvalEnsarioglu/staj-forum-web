@@ -1,6 +1,6 @@
-import React from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./styles/App.css";
 import Anasayfa from "./pages/Anasayfa";
 import ChatStj from "./pages/ChatStj";
 import Forum from "./pages/Forum";
