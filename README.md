@@ -1,125 +1,50 @@
-# 🌐 Staj Forum Web Uygulaması
+# Staj Forum Web
 
-**Staj Forum**, öğrencilerin staj deneyimlerini paylaşabildiği, diğer kullanıcılarla etkileşime geçebildiği ve yapay zekâ destekli "ChatSTJ" aracılığıyla rehberlik alabileceği bir web platformudur.
+Staj Forum platformunun modern web arayüzüdür. Stajyerlerin deneyimlerini paylasabilecegi bir forum, yapay zeka destekli sohbet asistani ve CV analiz araclari sunar.
 
-## 📋 Proje Durumu
+## Ozellikler
 
-Proje aktif geliştirme aşamasındadır. Temel sayfalar ve bileşenler tamamlanmış, backend API entegrasyonu yapılmıştır.
+*   **Forum:** Kullanicilarin staj deneyimlerini paylasip tartisabilecegi konu tabanli yapi.
+*   **AI Sohbet Asistani (ChatStj):** Google Gemini API destekli, stajyerlerin sorularini yanitlayan akilli asistan.
+*   **AI CV Analizi:** PDF formatindaki CV'leri tarayici uzerinde isleyerek (Client-Side), yapay zeka ile guclu/zayif yon analizi ve puanlama yapar.
+*   **Duyarli Tasarim (Responsive):** Mobil ve masaustu cihazlarla tam uyumlu modern arayuz.
 
-## 🚀 Teknolojiler
+## Teknolojiler
 
-- **React 19** - UI framework
-- **TypeScript** - Tip güvenliği
-- **Vite** - Build tool ve dev server
-- **React Router DOM** - Sayfa yönlendirme
-- **Material-UI (MUI)** - UI bileşen kütüphanesi
-- **Axios** - HTTP istekleri
-- **Lucide React** - İkonlar
+*   **Framework:** React 19
+*   **Dil:** TypeScript
+*   **Derleme Araci:** Vite
+*   **Stil:** Vanilla CSS (CSS Degiskenleri ve Moduler Yapi)
+*   **AI Entegrasyonu:** Google Gemini API
+*   **PDF Isleme:** pdfjs-dist
+*   **HTTP Istekleri:** Axios
 
-## 📁 Proje Yapısı
+## Kurulum ve Calistirma
 
-```
-src/
-├── api/              # Backend API servisleri
-│   ├── apiService.ts      # Axios client yapılandırması
-│   ├── forumService.ts    # Forum API işlemleri
-│   └── contactService.ts  # İletişim formu API işlemleri
-├── components/       # Yeniden kullanılabilir bileşenler
-│   ├── TopAppBar.tsx      # Üst navigasyon çubuğu
-│   ├── BottomBar.tsx      # Alt footer
-│   ├── TopicCard.tsx      # Forum topic kartı
-│   └── chat/              # Chat bileşenleri
-│       ├── ChatHeader.tsx
-│       ├── ChatInput.tsx
-│       └── ChatMessage.tsx
-├── pages/           # Sayfa bileşenleri
-│   ├── Anasayfa.tsx           # Ana sayfa
-│   ├── Forum.tsx              # Forum listesi ve topic oluşturma
-│   ├── ForumKonuSecimi.tsx   # Topic detay sayfası (geliştirme aşamasında)
-│   ├── ChatStj.tsx           # AI chat bot (şimdilik mock)
-│   ├── Hakkinda.tsx          # Hakkında sayfası
-│   └── Iletisim.tsx          # İletişim formu
-└── styles/          # CSS dosyaları
-    ├── global.css
-    ├── variables.css
-    ├── components/
-    └── pages/
-```
+Projeyi yerel ortamda calistirmak icin asagidaki adimlari izleyin.
 
-## ✨ Tamamlanan Özellikler
+1.  **Bagimliliklari Yukleyin:**
+    ```bash
+    npm install
+    ```
 
-### 🏠 Sayfalar
-- ✅ **Anasayfa**: Hoş geldin sayfası ve platform tanıtımı
-- ✅ **Forum**: Topic listeleme, yeni topic oluşturma, backend entegrasyonu
-- ✅ **ChatSTJ**: AI chat arayüzü (şimdilik mock yanıtlar)
-- ✅ **Hakkında**: Platform bilgilendirme sayfası
-- ✅ **İletişim**: İletişim formu (backend entegrasyonu ile)
+2.  **Gelistirme Sunucusunu Baslatin:**
+    ```bash
+    npm run dev
+    ```
 
-### 🧩 Bileşenler
-- ✅ **TopAppBar**: Responsive üst navigasyon menüsü (hamburger menu)
-- ✅ **BottomBar**: Footer bileşeni
-- ✅ **TopicCard**: Forum topic kartları
-- ✅ **Chat Bileşenleri**: ChatHeader, ChatInput, ChatMessage
+3.  **Tarayicida Acin:**
+    Terminalde verilen yerel adresi (ornegin `http://localhost:5173`) tarayicinizda acin.
 
-### 🔌 Backend Entegrasyonu
-- ✅ API servis yapılandırması (Axios)
-- ✅ Forum topic'leri listeleme ve oluşturma
-- ✅ İletişim formu mesaj gönderme
-- ✅ Backend API varsayılan adresi: `http://localhost:5236/api`
-- 🌐 Farklı ortamlar için `.env` dosyasına `VITE_API_BASE_URL` yazarak adresi özelleştirebilirsiniz
+## Proje Yapisi
 
-### 📡 API Endpoint'leri
+*   `src/api`: Backend ile iletisimi saglayan servis dosyalari.
+*   `src/components`: Tekrar kullanilabilir UI bilesenleri (Header, Footer vb.).
+*   `src/pages`: Uygulamanin ana sayfalari (Forum, Chat, CV Analiz vb.).
+*   `src/styles`: CSS stil dosyalari, degiskenler ve bilesen stilleri.
+    *   `global.css`: Genel sifirlama ve temel stiller.
+    *   `variables.css`: Renk paleti ve tipografi degiskenleri.
 
-**Base URL**: `http://localhost:5236/api`
+## Ortam Degiskenleri
 
-#### Forum Endpoint'leri
-- `GET /forum/topics` - Topic listesi
-  - Query Parameters: `page`, `pageSize`, `sortBy`, `search`
-  - Response: `PagedResult<Topic>`
-- `GET /forum/topics/{id}` - Topic detayı
-  - Response: `Topic`
-- `POST /forum/topics` - Yeni topic oluşturma
-  - Body: `{ title: string, content: string, authorName: string }`
-  - Response: `Topic`
-
-#### İletişim Endpoint'leri
-- `POST /contact` - İletişim mesajı gönderme
-  - Body: `{ name: string, email: string, subject: string, message: string }`
-  - Response: `ContactMessage`
-
-### 🎨 Stil ve Tasarım
-- ✅ CSS modüler yapı
-- ✅ Responsive tasarım
-- ✅ Modern UI/UX
-
-## 🚧 Devam Eden Geliştirmeler
-
-- ⏳ **ForumKonuSecimi**: Topic detay sayfası ve yanıt sistemi
-- ⏳ **ChatSTJ**: Gerçek AI entegrasyonu (şimdilik mock)
-- ⏳ Kullanıcı kimlik doğrulama sistemi
-
-## 🛠️ Kurulum ve Çalıştırma
-
-```bash
-# Bağımlılıkları yükle
-npm install
-
-# Opsiyonel: API adresini özelleştirin
-echo "VITE_API_BASE_URL=https://api.ornek.com/api" >> .env
-
-# Geliştirme sunucusunu başlat
-npm run dev
-
-# Production build
-npm run build
-
-# Build önizleme
-npm run preview
-```
-
-## 📝 Notlar
-
-- Backend API'nin çalışıyor olması gerekmektedir (`localhost:5236`)
-- Forum ve İletişim sayfaları backend'e bağlıdır
-- ChatSTJ şu anda mock yanıtlar üretmektedir
-- Geliştirme sırasında farklı bir makineden erişiyorsanız, tarayıcıdaki host temel alınarak backend isteği aynı makinedeki `:5236/api` adresine yönlendirilir
+Proje, backend baglantisi ve API anahtarlari icin `.env` dosyasina ihtiyac duyabilir. Gerekli degiskenler `chatService.ts` ve diger servis dosyalarinda yapilandirilmistir.
