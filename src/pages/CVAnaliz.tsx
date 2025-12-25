@@ -25,6 +25,59 @@ const CVAnaliz: React.FC = () => {
         }
     };
 
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+    React.useEffect(() => {
+        const loadPdfLib = async () => {
+            const pdfjs = await import('pdfjs-dist');
+            // Explicitly setting worker source for Vite
+            pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+                'pdfjs-dist/build/pdf.worker.min.mjs',
+                import.meta.url
+            ).toString();
+        };
+        loadPdfLib();
+    }, []);
+
+    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (file.type !== 'application/pdf') {
+            setError('Lütfen geçerli bir PDF dosyası yükleyin.');
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfjs = await import('pdfjs-dist');
+            const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+
+            let fullText = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items
+                    .map((item: any) => item.str)
+                    .join(' ');
+                fullText += pageText + '\n\n';
+            }
+
+            setCvText(fullText.trim());
+        } catch (err: any) {
+            console.error('PDF parsing error:', err);
+            setError('PDF dosyası okunamadı. Lütfen metni manuel yapıştırın.');
+        } finally {
+            setLoading(false);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+        }
+    };
+
     return (
         <div className="chat-page-container">
             <div className="chat-container">
@@ -37,54 +90,76 @@ const CVAnaliz: React.FC = () => {
                     height: '100%'
                 }}>
                     <h1 style={{ color: 'var(--color-primary)', marginBottom: '20px', textAlign: 'center' }}>
-                        AI Destekli CV Analizi 🚀
+                        AI Destekli CV Analizi
                     </h1>
                     <p style={{ textAlign: 'center', marginBottom: '30px', color: 'var(--color-text-secondary)' }}>
-                        CV metninizi aşağıya yapıştırın, yapay zeka sizin için staj başvurularına uygunluğunu analiz etsin,
-                        güçlü ve zayıf yönlerinizi çıkarsın.
+                        CV'nizi PDF formatında yükleyin, yapay zeka sizin için staj başvurularına uygunluğunu analiz etsin!
                     </p>
 
-                    <textarea
-                        value={cvText}
-                        onChange={(e) => setCvText(e.target.value)}
-                        placeholder="CV içeriğinizi buraya yapıştırın..."
-                        style={{
-                            width: '100%',
-                            minHeight: '200px',
-                            padding: '15px',
-                            borderRadius: '12px',
-                            backgroundColor: 'white',
-                            color: 'var(--color-text-primary)',
-                            border: '1px solid var(--color-primary)',
-                            resize: 'vertical',
-                            fontSize: '16px',
-                            marginBottom: '20px',
-                            fontFamily: 'inherit'
-                        }}
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
+                        <input
+                            type="file"
+                            accept=".pdf"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileUpload}
+                        />
+                        <button
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={loading}
+                            style={{
+                                padding: '20px 40px',
+                                backgroundColor: 'var(--color-primary)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '12px',
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                transition: 'transform 0.2s',
+                                boxShadow: '0 4px 14px 0 rgba(191, 9, 47, 0.39)'
+                            }}
+                        >
+                            PDF CV Yükle
+                        </button>
 
-                    <button
-                        onClick={handleAnalyze}
-                        disabled={loading || !cvText.trim()}
-                        style={{
-                            width: '100%',
-                            padding: '15px',
-                            backgroundColor: loading ? 'var(--color-text-muted)' : 'var(--color-secondary)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '12px',
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '10px',
-                            transition: 'background-color 0.3s ease'
-                        }}
-                    >
-                        {loading ? 'Analiz Ediliyor...' : 'Analiz Et ✨'}
-                    </button>
+                        {cvText && !loading && (
+                            <div style={{ marginTop: '15px', color: 'green', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                PDF Başarıyla Okundu
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Textarea removed as requested */}
+
+                    {cvText && (
+                        <button
+                            onClick={handleAnalyze}
+                            disabled={loading}
+                            style={{
+                                width: '100%',
+                                padding: '15px',
+                                backgroundColor: loading ? 'var(--color-text-muted)' : 'var(--color-secondary)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '12px',
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: '10px',
+                                transition: 'background-color 0.3s ease',
+                                marginTop: '10px'
+                            }}
+                        >
+                            {loading ? 'Analiz Ediliyor...' : 'Analizi Başlat '}
+                        </button>
+                    )}
 
                     {error && (
                         <div style={{
