@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTopicById, getReplies, createReply } from "../api/forumService";
-import type { Reply } from "../api/forumService";
+import type { Reply, PagedResult } from "../api/forumService";
 import "../styles/pages/Common.css";
 import "../styles/pages/ForumKonuSecimi.css";
 
@@ -25,7 +25,7 @@ const ForumKonuSecimi: React.FC = () => {
 
     // Reply Form States
     const [isReplyOpen, setIsReplyOpen] = useState(false);
-    const [replyAuthor, setReplyAuthor] = useState("Ad Soyad");
+    const [replyAuthor, setReplyAuthor] = useState(""); // Default empty to show placeholder
     const [replyContent, setReplyContent] = useState("");
     const [replyError, setReplyError] = useState("");
 
@@ -38,7 +38,7 @@ const ForumKonuSecimi: React.FC = () => {
                 const [topicData, repliesData] = await Promise.all([
                     getTopicById(topicId),
                     getReplies(topicId)
-                ]);
+                ]) as [Topic, PagedResult<Reply>];
 
                 setTopic(topicData);
                 setReplies(repliesData.data);
@@ -53,7 +53,12 @@ const ForumKonuSecimi: React.FC = () => {
         }
     };
 
+    // Prevent double fetch in StrictMode
+    const hasFetched = React.useRef(false);
+
     useEffect(() => {
+        if (hasFetched.current) return;
+        hasFetched.current = true;
         fetchAllData();
     }, [id]);
 
@@ -66,7 +71,7 @@ const ForumKonuSecimi: React.FC = () => {
         try {
             if (id) {
                 await createReply(Number(id), {
-                    authorName: replyAuthor || "Ad Soyad",
+                    authorName: replyAuthor.trim() || "Misafir",
                     content: replyContent
                 });
 
@@ -139,7 +144,6 @@ const ForumKonuSecimi: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Reply Form Area (Inline or Modal - Inline is simpler for now) */}
                 {isReplyOpen && (
                     <div className="reply-form">
                         <h3>Yanıt Gönder</h3>
@@ -149,6 +153,7 @@ const ForumKonuSecimi: React.FC = () => {
                             <input
                                 type="text"
                                 className="form-input"
+                                value={replyAuthor}
                                 onChange={(e) => setReplyAuthor(e.target.value)}
                             />
                         </div>
