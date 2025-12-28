@@ -5,6 +5,8 @@ Staj Forum platformunun modern web arayüzüdür. Stajyerlerin deneyimlerini pay
 ## Ozellikler
 
 *   **Forum:** Kullanicilarin staj deneyimlerini paylasip tartisabilecegi konu tabanli yapi.
+    *   **Topic Sıralama:** Konuları "En Yeni", "En Eski" ve "En Çok Görüntülenen" seçeneklerine göre sıralama özelliği.
+    *   **Gelişmiş Filtreleme Arayüzü:** Özel tasarım dropdown menüsü ve kullanıcı dostu yerleşim.
 *   **AI Sohbet Asistani (ChatStj):** Google Gemini API destekli, stajyerlerin sorularini yanitlayan akilli asistan.
 *   **AI CV Analizi:** PDF formatindaki CV'leri tarayici uzerinde isleyerek (Client-Side), yapay zeka ile guclu/zayif yon analizi ve puanlama yapar.
 *   **Duyarli Tasarim (Responsive):** Mobil ve masaustu cihazlarla tam uyumlu modern arayuz.
