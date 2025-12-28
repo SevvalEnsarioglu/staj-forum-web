@@ -107,7 +107,7 @@ const CVAnaliz: React.FC = () => {
 
                         {cvText && !loading && (
                             <div className="cv-success-msg">
-                                ✅ PDF Başarıyla Okundu
+                                ✅ PDF Başarıyla Aktarıldı
                             </div>
                         )}
                     </div>
