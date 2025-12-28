@@ -15,6 +15,7 @@ interface Topic {
 const Forum: React.FC = () => {
     const [topics, setTopics] = useState<Topic[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [sortBy, setSortBy] = useState("newest");
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -25,14 +26,14 @@ const Forum: React.FC = () => {
     const fetchTopics = async () => {
         try {
             setIsLoading(true);
-            const response = await getTopics(1, 50, 'newest');
+            const response = await getTopics(1, 50, sortBy);
 
             const formattedTopics: Topic[] = response.data.map((topic) => ({
                 id: topic.id.toString(),
                 authorName: topic.authorName,
                 title: topic.title,
-                description: topic.content.length > 200 
-                    ? topic.content.substring(0, 200) + '...' 
+                description: topic.content.length > 200
+                    ? topic.content.substring(0, 200) + '...'
                     : topic.content
             }));
             setTopics(formattedTopics);
@@ -46,7 +47,7 @@ const Forum: React.FC = () => {
 
     useEffect(() => {
         fetchTopics();
-    }, []);
+    }, [sortBy]);
 
     const validate = () => {
         const newErrors: any = {};
@@ -90,12 +91,25 @@ const Forum: React.FC = () => {
         <div className="page-container forum-page">
             <div className="forum-header">
                 <h1>Forum</h1>
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="btn-topic-open"
-                >
-                    Topic Oluştur
-                </button>
+                <div className="header-actions">
+                    <div className="sort-container">
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            className="sort-select"
+                        >
+                            <option value="newest">En Yeni</option>
+                            <option value="oldest">En Eski</option>
+                            <option value="popular">En Çok Görüntülenen</option>
+                        </select>
+                    </div>
+                    <button
+                        onClick={() => setIsOpen(true)}
+                        className="btn-topic-open"
+                    >
+                        Topic Oluştur
+                    </button>
+                </div>
             </div>
 
             <div className="topics-container">
