@@ -2,6 +2,7 @@
    TOPIC CARD COMPONENT STYLES
    ============================================ */
 
+
 .topic-card {
   background-color: var(--color-bg-primary);
   border-radius: var(--radius-lg);
@@ -13,6 +14,8 @@
   border: 1px solid var(--color-border-light);
   width: 100%;
   max-width: var(--max-width-section);
+  display: flex;
+  flex-direction: column;
 }
 
 .topic-card:hover {
@@ -22,16 +25,15 @@
 }
 
 .topic-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: 0.5rem;
 }
+
 
 .topic-author {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  font-weight: var(--font-weight-bold)
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.5rem;
 }
 
 .topic-title {
@@ -40,6 +42,7 @@
   margin-bottom: var(--spacing-md);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
+  text-align: left;
 }
 
 .topic-description {
@@ -48,9 +51,31 @@
   line-height: var(--line-height-relaxed);
   display: -webkit-box;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.topic-meta {
+  display: flex;
+  gap: 1.5rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.topic-date,
+.topic-views,
+.topic-replies {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 /* Responsive */
@@ -63,4 +88,3 @@
     font-size: var(--font-size-lg);
   }
 }
-
