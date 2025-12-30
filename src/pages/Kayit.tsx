@@ -1,9 +1,11 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
 import '../styles/pages/Auth.css';
 
 const Kayit: React.FC = () => {
+    const navigate = useNavigate();
+    const { register, isLoading, error, clearError } = useAuthStore();
     const [formData, setFormData] = useState({
         name: '',
         surname: '',
@@ -18,25 +20,38 @@ const Kayit: React.FC = () => {
             ...prevState,
             [name]: value
         }));
+        if (error) clearError();
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle registration logic here
         if (formData.password !== formData.confirmPassword) {
             alert('Şifreler eşleşmiyor!');
             return;
         }
-        console.log('Register attempt:', formData);
+
+        try {
+            await register({
+                firstName: formData.name,
+                lastName: formData.surname,
+                email: formData.email,
+                password: formData.password
+            });
+            navigate('/');
+        } catch (err) {
+            // Error is handled in store
+        }
     };
 
     return (
-        <div className="auth-page">
-            <div className="auth-container">
+        <div className="auth-container">
+            <div className="auth-card">
                 <div className="auth-header">
-                    <h1>Kayıt Ol</h1>
+                    <h2>Kayıt Ol</h2>
                     <p>StajForum topluluğuna katılmak için hesap oluşturun.</p>
                 </div>
+
+                {error && <div className="error-message">{error}</div>}
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="form-row">
@@ -89,6 +104,7 @@ const Kayit: React.FC = () => {
                             onChange={handleChange}
                             placeholder="********"
                             required
+                            minLength={6}
                         />
                     </div>
 
@@ -105,8 +121,8 @@ const Kayit: React.FC = () => {
                         />
                     </div>
 
-                    <button type="submit" className="auth-button">
-                        Kayıt Ol
+                    <button type="submit" className="submit-btn" disabled={isLoading}>
+                        {isLoading ? 'Kayıt Yapılıyor...' : 'Kayıt Ol'}
                     </button>
                 </form>
 

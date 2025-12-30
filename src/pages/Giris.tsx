@@ -1,25 +1,40 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
 import '../styles/pages/Auth.css';
 
 const Giris: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const { login, isLoading, error, clearError } = useAuthStore();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (error) clearError();
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle login logic here
-        console.log('Login attempt:', { email, password });
+        try {
+            await login({ email: formData.email, password: formData.password });
+            navigate('/');
+        } catch (err) {
+            // Error is handled in store
+        }
     };
 
     return (
-        <div className="auth-page">
-            <div className="auth-container">
+        <div className="auth-container">
+            <div className="auth-card">
                 <div className="auth-header">
-                    <h1>Giriş Yap</h1>
+                    <h2>Giriş Yap</h2>
                     <p>Hesabınıza erişmek için bilgilerinizi girin.</p>
                 </div>
+
+                {error && <div className="error-message">{error}</div>}
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -27,8 +42,9 @@ const Giris: React.FC = () => {
                         <input
                             type="email"
                             id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             placeholder="ornek@email.com"
                             required
                         />
@@ -39,15 +55,16 @@ const Giris: React.FC = () => {
                         <input
                             type="password"
                             id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                             placeholder="********"
                             required
                         />
                     </div>
 
-                    <button type="submit" className="auth-button">
-                        Giriş Yap
+                    <button type="submit" className="submit-btn" disabled={isLoading}>
+                        {isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
                     </button>
                 </form>
 
