@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {
     Bold,
     Italic,
@@ -7,7 +7,9 @@ import {
     ListOrdered,
     Link as LinkIcon,
     Heading1,
-    Heading2
+    Heading2,
+    Palette,
+    Type
 } from 'lucide-react';
 import '../styles/components/RichTextEditor.css';
 
@@ -18,11 +20,13 @@ interface RichTextEditorProps {
 }
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
-    value,
-    onChange,
-    placeholder = "İçeriğinizi buraya yazın..."
-}) => {
+                                                           value,
+                                                           onChange,
+                                                           placeholder = "İçeriğinizi buraya yazın..."
+                                                       }) => {
     const editorRef = useRef<HTMLDivElement>(null);
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const [showFontSizePicker, setShowFontSizePicker] = useState(false);
 
     // İlk render'da value'yu set et
     React.useEffect(() => {
@@ -52,6 +56,34 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     const formatBlock = (tag: string) => {
         executeCommand('formatBlock', tag);
     };
+
+    const changeTextColor = (color: string) => {
+        executeCommand('foreColor', color);
+        setShowColorPicker(false);
+    };
+
+    const changeFontSize = (size: string) => {
+        executeCommand('fontSize', size);
+        setShowFontSizePicker(false);
+    };
+
+    const colors = [
+        '#000000', // Siyah
+        '#EF4444', // Kırmızı
+        '#F97316', // Turuncu
+        '#FBBF24', // Sarı
+        '#22C55E', // Yeşil
+        '#3B82F6', // Mavi
+        '#8B5CF6', // Mor
+        '#EC4899', // Pembe
+    ];
+
+    const fontSizes = [
+        { label: 'Küçük', value: '1' },
+        { label: 'Normal', value: '3' },
+        { label: 'Büyük', value: '5' },
+        { label: 'Çok Büyük', value: '7' },
+    ];
 
     return (
         <div className="rich-text-editor">
@@ -123,6 +155,68 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
                     >
                         <ListOrdered size={18} />
                     </button>
+                </div>
+
+                <div className="toolbar-divider" />
+
+                {/* Font Boyutu Dropdown */}
+                <div className="toolbar-group dropdown-group">
+                    <div className="dropdown-container">
+                        <button
+                            type="button"
+                            className="toolbar-button dropdown-button"
+                            onClick={() => setShowFontSizePicker(!showFontSizePicker)}
+                            title="Font Boyutu"
+                        >
+                            <Type size={18} />
+                            <span>Boyut</span>
+                        </button>
+                        {showFontSizePicker && (
+                            <div className="dropdown-menu">
+                                {fontSizes.map((size) => (
+                                    <button
+                                        key={size.value}
+                                        type="button"
+                                        className="dropdown-item"
+                                        onClick={() => changeFontSize(size.value)}
+                                    >
+                                        {size.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="toolbar-divider" />
+
+                {/* Renk Picker */}
+                <div className="toolbar-group dropdown-group">
+                    <div className="dropdown-container">
+                        <button
+                            type="button"
+                            className="toolbar-button dropdown-button"
+                            onClick={() => setShowColorPicker(!showColorPicker)}
+                            title="Metin Rengi"
+                        >
+                            <Palette size={18} />
+                            <span>Renk</span>
+                        </button>
+                        {showColorPicker && (
+                            <div className="color-picker">
+                                {colors.map((color) => (
+                                    <button
+                                        key={color}
+                                        type="button"
+                                        className="color-button"
+                                        style={{ backgroundColor: color }}
+                                        onClick={() => changeTextColor(color)}
+                                        title={color}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="toolbar-divider" />
