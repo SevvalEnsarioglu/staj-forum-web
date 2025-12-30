@@ -87,3 +87,48 @@ export const createReply = async (topicId: number, reply: CreateReply): Promise<
     return response.data;
 };
 
+// Kullanıcının konularını getir
+export const getUserTopics = async (
+    userId: number,
+    page: number = 1,
+    pageSize: number = 10
+): Promise<PagedResult<Topic>> => {
+    const response = await apiClient.get(`/forum/users/${userId}/topics`, {
+        params: { page, pageSize },
+    });
+    return response.data;
+};
+
+// Kullanıcının yorumlarını getir
+export const getUserReplies = async (
+    userId: number,
+    page: number = 1,
+    pageSize: number = 10
+): Promise<PagedResult<Reply>> => {
+    const response = await apiClient.get(`/forum/users/${userId}/replies`, {
+        params: { page, pageSize },
+    });
+    return response.data;
+};
+
+// Topic güncelle
+export const updateTopic = async (id: number, title: string, content: string): Promise<Topic> => {
+    const response = await apiClient.put(`/forum/topics/${id}`, { title, content });
+    return response.data;
+};
+
+// Topic sil
+export const deleteTopic = async (id: number): Promise<void> => {
+    await apiClient.delete(`/forum/topics/${id}`);
+};
+
+// Reply güncelle
+export const updateReply = async (id: number, content: string, authorName: string): Promise<Reply> => {
+    const response = await apiClient.put(`/forum/replies/${id}`, { content, authorName });
+    return response.data;
+};
+
+// Reply sil
+export const deleteReply = async (id: number): Promise<void> => {
+    await apiClient.delete(`/forum/replies/${id}`);
+};

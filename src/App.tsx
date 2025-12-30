@@ -9,6 +9,7 @@ import Iletisim from "./pages/Iletisim";
 import CVAnaliz from "./pages/CVAnaliz";
 import Giris from "./pages/Giris";
 import Kayit from "./pages/Kayit";
+import Profile from "./pages/Profile";
 
 import TopAppBar from "./components/TopAppBar";
 import BottomBar from "./components/BottomBar";
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         { path: "/hakkinda", element: <Hakkinda /> },
         { path: "/giris", element: <Giris /> },
         { path: "/kayit", element: <Kayit /> },
+        { path: "/profile", element: <Profile /> },
         { path: "/iletisim", element: <Iletisim /> },
     ] as const;
 

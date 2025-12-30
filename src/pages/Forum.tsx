@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { sendTopicMessage } from "../api/contactService";
-import { getTopics } from "../api/forumService";
+import { createTopic, getTopics } from "../api/forumService";
+import { useAuthStore } from "../store/useAuthStore";
 import TopicCard from "../components/TopicCard";
 import CustomDropdown from "../components/CustomDropdown";
 import RichTextEditor from "../components/RichTextEditor";
@@ -23,6 +23,7 @@ interface Topic {
 }
 
 const Forum: React.FC = () => {
+    const { user } = useAuthStore();
     const [topics, setTopics] = useState<Topic[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [sortBy, setSortBy] = useState("newest");
@@ -31,6 +32,13 @@ const Forum: React.FC = () => {
     const [content, setContent] = useState("");
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState<any>({});
+
+    // Kullanıcı giriş yapmışsa authorName'i otomatik doldur
+    useEffect(() => {
+        if (user && isOpen) {
+            setAuthorName(`${user.firstName} ${user.lastName}`);
+        }
+    }, [user, isOpen]);
 
     const fetchTopics = async () => {
         try {
@@ -78,22 +86,21 @@ const Forum: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const createTopic = async () => {
+    const handleCreateTopic = async () => {
         if (!validate()) return;
 
         try {
-            const topic = await sendTopicMessage({ title, content, authorName });
-            console.log("Topic oluşturuldu:", topic);
-
+            await createTopic({ title, content, authorName });
             await fetchTopics();
 
             setIsOpen(false);
             setTitle("");
             setContent("");
-            setAuthorName("");
+            if (!user) setAuthorName(""); // Sadece giriş yapmamışsa temizle
             setErrors({});
         } catch (error) {
             console.error("Topic oluşturulurken hata:", error);
+            alert("Topic oluşturulurken bir hata oluştu.");
         }
     };
 
@@ -160,12 +167,16 @@ const Forum: React.FC = () => {
 
                         <div className="topic-form">
                             <div className="form-group">
-                                <label htmlFor="topic-author">Ad Soyad</label>
+                                <label htmlFor="topic-author">
+                                    Ad Soyad {user && "(Otomatik dolduruldu)"}
+                                </label>
                                 <input
                                     type="text"
                                     id="topic-author"
                                     value={authorName}
                                     onChange={(e) => setAuthorName(e.target.value)}
+                                    disabled={!!user}
+                                    placeholder={user ? "" : "Adınız Soyadınız"}
                                 />
                                 {errors.authorName && (
                                     <p className="error-message">{errors.authorName}</p>
@@ -204,7 +215,7 @@ const Forum: React.FC = () => {
                                     İptal
                                 </button>
                                 <button
-                                    onClick={createTopic}
+                                    onClick={handleCreateTopic}
                                     className="btn-submit"
                                 >
                                     Kaydet
