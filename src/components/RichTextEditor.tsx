@@ -42,7 +42,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     }, [onChange]);
 
     const executeCommand = (command: string, commandValue?: string) => {
-        document.execCommand(command, false, commandValue || undefined);
+        // TypeScript hatasını önlemek için undefined yerine boş string kullanıyoruz
+        document.execCommand(command, false, commandValue ?? "");
         editorRef.current?.focus();
     };
 
