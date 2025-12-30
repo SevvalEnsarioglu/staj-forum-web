@@ -8,6 +8,8 @@ import ForumKonuSecimi from "./pages/ForumKonuSecimi";
 import Hakkinda from "./pages/Hakkinda";
 import Iletisim from "./pages/Iletisim.tsx";
 import CVAnaliz from "./pages/CVAnaliz";
+import Giris from "./pages/Giris";
+import Kayit from "./pages/Kayit";
 
 import TopAppBar from "./components/TopAppBar";
 import BottomBar from "./components/BottomBar.tsx";
@@ -25,6 +27,8 @@ function App() {
                     <Route path="/chatstj" element={<ChatStj />} />
                     <Route path="/cv-analiz" element={<CVAnaliz />} />
                     <Route path="/hakkinda" element={<Hakkinda />} />
+                    <Route path="/giris" element={<Giris />} />
+                    <Route path="/kayit" element={<Kayit />} />
                     <Route path="/iletisim" element={<Iletisim />} />
                 </Routes>
             </main>

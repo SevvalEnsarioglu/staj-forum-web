@@ -57,6 +57,15 @@ const TopAppBar: React.FC = () => {
                 </ul>
             </nav>
 
+            <div className="auth-buttons">
+                <Link to="/giris" className="auth-link outline">
+                    Giriş Yap
+                </Link>
+                <Link to="/kayit" className="auth-link">
+                    Kayıt Ol
+                </Link>
+            </div>
+
             <button
                 className={`hamburger-menu ${isMenuOpen ? "active" : ""}`}
                 onClick={toggleMenu}
