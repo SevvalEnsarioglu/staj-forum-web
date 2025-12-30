@@ -44,6 +44,13 @@ body {
   text-align: center;
 }
 
+.app-main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Link Styles */
 a {
   text-decoration: none;
@@ -107,5 +114,3 @@ ul, ol {
     padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-2xl);
   }
 }
-
-
