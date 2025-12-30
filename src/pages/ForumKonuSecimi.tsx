@@ -53,12 +53,7 @@ const ForumKonuSecimi: React.FC = () => {
         }
     };
 
-    // Prevent double fetch in StrictMode
-    const hasFetched = React.useRef(false);
-
     useEffect(() => {
-        if (hasFetched.current) return;
-        hasFetched.current = true;
         fetchAllData();
     }, [id]);
 
@@ -127,7 +122,10 @@ const ForumKonuSecimi: React.FC = () => {
             </div>
 
             <div className="topic-content">
-                <p className="topic-content-text">{topic.content}</p>
+                <div
+                    className="topic-content-text"
+                    dangerouslySetInnerHTML={{ __html: topic.content }}
+                />
             </div>
 
             <div className="replies-section">
