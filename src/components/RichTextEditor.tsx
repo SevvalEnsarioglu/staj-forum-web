@@ -30,10 +30,10 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
     // İlk render'da value'yu set et
     React.useEffect(() => {
-        if (editorRef.current && editorRef.current.innerHTML !== value) {
+        if (editorRef.current && value && editorRef.current.innerHTML !== value) {
             editorRef.current.innerHTML = value;
         }
-    }, []);
+    }, [value]);
 
     const handleInput = useCallback(() => {
         if (editorRef.current) {
@@ -41,8 +41,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }
     }, [onChange]);
 
-    const executeCommand = (command: string, value?: string) => {
-        document.execCommand(command, false, value);
+    const executeCommand = (command: string, commandValue?: string) => {
+        document.execCommand(command, false, commandValue || undefined);
         editorRef.current?.focus();
     };
 
