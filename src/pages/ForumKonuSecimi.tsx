@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { getTopicById, getReplies, createReply } from "../api/forumService";
 import type { Reply, PagedResult } from "../api/forumService";
+import RichTextEditor from "../components/RichTextEditor";
 import "../styles/pages/Common.css";
 import "../styles/pages/ForumKonuSecimi.css";
+
+const stripHtml = (html: string) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+};
 
 interface Topic {
     id: number;
@@ -22,6 +29,9 @@ const ForumKonuSecimi: React.FC = () => {
     const [replies, setReplies] = useState<Reply[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    // Prevent double-fetching in React Strict Mode
+    const lastFetchedIdRef = useRef<string | null>(null);
 
     // Reply Form States
     const [isReplyOpen, setIsReplyOpen] = useState(false);
@@ -54,11 +64,19 @@ const ForumKonuSecimi: React.FC = () => {
     };
 
     useEffect(() => {
+        if (!id) return;
+
+        // Strict Mode ve ID değişimi kontrolü
+        // Aynı ID için tekrar fetch yapmayı engeller (Strict Mode fix)
+        if (lastFetchedIdRef.current === id) return;
+        lastFetchedIdRef.current = id;
+
         fetchAllData();
     }, [id]);
 
     const handleCreateReply = async () => {
-        if (!replyContent.trim()) {
+        const plainContent = stripHtml(replyContent);
+        if (!plainContent.trim()) {
             setReplyError("Lütfen bir yanıt yazın.");
             return;
         }
@@ -158,11 +176,10 @@ const ForumKonuSecimi: React.FC = () => {
 
                         <div className="form-group">
                             <label>Yanıtınız</label>
-                            <textarea
-                                rows={4}
-                                className="form-textarea"
+                            <RichTextEditor
                                 value={replyContent}
-                                onChange={(e) => setReplyContent(e.target.value)}
+                                onChange={setReplyContent}
+                                placeholder="Yanıtınızı buraya yazınız..."
                             />
                         </div>
 
@@ -197,7 +214,10 @@ const ForumKonuSecimi: React.FC = () => {
                                     <span className="reply-author">{reply.authorName}</span>
                                     <span className="reply-date">{formatDate(reply.createdAt)}</span>
                                 </div>
-                                <p className="reply-content">{reply.content}</p>
+                                <div
+                                    className="reply-content"
+                                    dangerouslySetInnerHTML={{ __html: reply.content }}
+                                />
                             </div>
                         ))}
                     </div>
