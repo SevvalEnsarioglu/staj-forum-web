@@ -12,6 +12,11 @@
   left: 0;
   z-index: var(--z-index-header);
   box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-only {
+  display: none;
 }
 
 /* Logo Section */
@@ -174,6 +179,12 @@
 
   .nav-links li {
     border-bottom: 1px solid var(--color-border-lighter);
+    display: block;
+    /* Ensure list items are block */
+  }
+
+  .nav-links li.mobile-only {
+    display: block;
   }
 
   .nav-links .nav-item {

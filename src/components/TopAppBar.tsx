@@ -54,6 +54,16 @@ const TopAppBar: React.FC = () => {
                             İletişim
                         </Link>
                     </li>
+                    <li className="mobile-only">
+                        <Link to="/giris" className="nav-item" onClick={closeMenu}>
+                            Giriş Yap
+                        </Link>
+                    </li>
+                    <li className="mobile-only">
+                        <Link to="/kayit" className="nav-item" onClick={closeMenu}>
+                            Kayıt Ol
+                        </Link>
+                    </li>
                 </ul>
             </nav>
 
