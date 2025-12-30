@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 import logo from "../assets/staj-forum-logo-no-background.png";
+import "../styles/components/TopAppBar.css";
 
 const TopAppBar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { user, isAuthenticated, logout } = useAuthStore();
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -11,6 +15,11 @@ const TopAppBar: React.FC = () => {
 
     const closeMenu = () => {
         setIsMenuOpen(false);
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+        closeMenu();
     };
 
     return (
@@ -54,26 +63,62 @@ const TopAppBar: React.FC = () => {
                             İletişim
                         </Link>
                     </li>
-                    <li className="mobile-only">
-                        <Link to="/giris" className="nav-item" onClick={closeMenu}>
-                            Giriş Yap
-                        </Link>
-                    </li>
-                    <li className="mobile-only">
-                        <Link to="/kayit" className="nav-item" onClick={closeMenu}>
-                            Kayıt Ol
-                        </Link>
-                    </li>
+
+                    {/* Mobile Only Auth Links */}
+                    {!isAuthenticated ? (
+                        <>
+                            <li className="mobile-only">
+                                <Link to="/giris" className="nav-item" onClick={closeMenu}>
+                                    Giriş Yap
+                                </Link>
+                            </li>
+                            <li className="mobile-only">
+                                <Link to="/kayit" className="nav-item" onClick={closeMenu}>
+                                    Kayıt Ol
+                                </Link>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="mobile-only">
+                            <Link to="/profile" className="nav-item" onClick={closeMenu}>
+                                Profilim ({user?.firstName})
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
 
             <div className="auth-buttons">
-                <Link to="/giris" className="auth-link outline">
-                    Giriş Yap
-                </Link>
-                <Link to="/kayit" className="auth-link">
-                    Kayıt Ol
-                </Link>
+                {!isAuthenticated ? (
+                    <>
+                        <Link to="/giris" className="auth-link outline">
+                            Giriş Yap
+                        </Link>
+                        <Link to="/kayit" className="auth-link">
+                            Kayıt Ol
+                        </Link>
+                    </>
+                ) : (
+                    <div className="user-profile-menu" onClick={handleProfileClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--accent-primary)',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: 'bold',
+                            fontSize: '0.9rem'
+                        }}>
+                            {user?.firstName?.[0]}{user?.lastName?.[0]}
+                        </div>
+                        <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
+                            {user?.firstName} {user?.lastName}
+                        </span>
+                    </div>
+                )}
             </div>
 
             <button
