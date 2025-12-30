@@ -12,7 +12,6 @@
   left: 0;
   z-index: var(--z-index-header);
   box-shadow: var(--shadow-sm);
-  box-shadow: var(--shadow-sm);
 }
 
 .mobile-only {
