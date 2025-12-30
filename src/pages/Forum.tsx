@@ -2,14 +2,24 @@ import React, { useState, useEffect } from "react";
 import { sendTopicMessage } from "../api/contactService";
 import { getTopics } from "../api/forumService";
 import TopicCard from "../components/TopicCard";
+import CustomDropdown from "../components/CustomDropdown";
+import RichTextEditor from "../components/RichTextEditor";
 import "../styles/pages/Common.css";
 import "../styles/pages/Forum.css";
+const stripHtml = (html: string) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+};
 
 interface Topic {
     id: string;
     authorName: string;
     title: string;
     description: string;
+    createdAt: string;
+    viewCount: number;
+    replyCount?: number;
 }
 
 const Forum: React.FC = () => {
@@ -22,7 +32,6 @@ const Forum: React.FC = () => {
     const [authorName, setAuthorName] = useState("");
     const [errors, setErrors] = useState<any>({});
 
-    // Backend'den topic'leri çeken fonksiyon
     const fetchTopics = async () => {
         try {
             setIsLoading(true);
@@ -32,9 +41,12 @@ const Forum: React.FC = () => {
                 id: topic.id.toString(),
                 authorName: topic.authorName,
                 title: topic.title,
-                description: topic.content.length > 200
-                    ? topic.content.substring(0, 200) + '...'
-                    : topic.content
+                description: stripHtml(topic.content).length > 200
+                    ? stripHtml(topic.content).substring(0, 200) + '...'
+                    : stripHtml(topic.content),
+                createdAt: new Date(topic.createdAt).toLocaleDateString("tr-TR"),
+                viewCount: topic.viewCount,
+                replyCount: topic.replyCount || 0
             }));
             setTopics(formattedTopics);
         } catch (error) {
@@ -51,11 +63,12 @@ const Forum: React.FC = () => {
 
     const validate = () => {
         const newErrors: any = {};
+        const plainContent = stripHtml(content);
 
         if (!title || title.length < 3 || title.length > 200)
             newErrors.title = "Başlık 3-200 karakter arasında olmalıdır.";
 
-        if (!content || content.length < 10 || content.length > 5000)
+        if (!plainContent || plainContent.length < 10 || plainContent.length > 5000)
             newErrors.content = "İçerik 10-5000 karakter arasında olmalıdır.";
 
         if (!authorName || authorName.length < 2 || authorName.length > 100)
@@ -69,14 +82,11 @@ const Forum: React.FC = () => {
         if (!validate()) return;
 
         try {
-            // Backend'e POST isteği gönder
             const topic = await sendTopicMessage({ title, content, authorName });
             console.log("Topic oluşturuldu:", topic);
 
-            // POST isteği başarılı olduktan sonra tüm topic'leri tekrar çek
             await fetchTopics();
 
-            // Modal'ı kapat ve formu temizle
             setIsOpen(false);
             setTitle("");
             setContent("");
@@ -93,15 +103,16 @@ const Forum: React.FC = () => {
                 <h1>Forum</h1>
                 <div className="header-actions">
                     <div className="sort-container">
-                        <select
+                        <CustomDropdown
+                            options={[
+                                { value: "newest", label: "En Yeni" },
+                                { value: "oldest", label: "En Eski" },
+                                { value: "popular", label: "En Çok Görüntülenen" }
+                            ]}
                             value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            className="sort-select"
-                        >
-                            <option value="newest">En Yeni</option>
-                            <option value="oldest">En Eski</option>
-                            <option value="popular">En Çok Görüntülenen</option>
-                        </select>
+                            onChange={(val) => setSortBy(val)}
+                            className="sort-dropdown"
+                        />
                     </div>
                     <button
                         onClick={() => setIsOpen(true)}
@@ -123,6 +134,9 @@ const Forum: React.FC = () => {
                             authorName={topic.authorName}
                             title={topic.title}
                             description={topic.description}
+                            createdAt={topic.createdAt}
+                            viewCount={topic.viewCount}
+                            replyCount={topic.replyCount}
                         />
                     ))
                 ) : (
@@ -172,17 +186,15 @@ const Forum: React.FC = () => {
 
                             <div className="form-group">
                                 <label htmlFor="topic-content">İçerik</label>
-                                <textarea
-                                    id="topic-content"
+                                <RichTextEditor
                                     value={content}
-                                    onChange={(e) => setContent(e.target.value)}
+                                    onChange={setContent}
+                                    placeholder="Konu içeriğini buraya yazınız..."
                                 />
                                 {errors.content && (
                                     <p className="error-message">{errors.content}</p>
                                 )}
                             </div>
-
-
 
                             <div className="form-actions">
                                 <button
