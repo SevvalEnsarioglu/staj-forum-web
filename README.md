@@ -2,6 +2,8 @@
 
 Staj Forum platformunun modern web arayüzüdür. Stajyerlerin deneyimlerini paylasabilecegi bir forum, yapay zeka destekli sohbet asistani, kullanici kimlik dogrulama sistemi ve CV analiz araclari sunar.
 
+PROJE TANITIMI YOUTUBE LİNK: https://youtu.be/qcWZVtor6gA
+
 ## Ozellikler
 
 *   **Kullanici Kimlik Dogrulama:**
